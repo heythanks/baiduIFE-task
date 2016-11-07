@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload=function(){
+            var canvas=document.getElementById("canvas"),
+                context=canvas.getContext("2d");
+            canvas.height=600;
+            canvas.width=600;
+            canvas.style.border="1px solid black";
+            var ball={
+                x:canvas.width/2,
+                y:canvas.height/2,
+                r:80,
+                g:2,
+                vx:5,
+                vy:10
+            };
+            setInterval(function(){
+                render();
+                update();
+            },50)
+
+            //汉字部分
+        function render(){
+            context.save();
+            context.clearRect(0,0,canvas.width,canvas.height);
+             context.beginPath();
+            context.fillStyle="black";
+            context.fillRect(0,0,canvas.width,canvas.height);
+            context.beginPath();
+                context.fillStyle="#fff";
+                context.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
+                context.fill();
+                context.clip();
+
+            context.strokeStyle="red";
+            var background=new Image();
+            background.src="墙壁.jpg";
+            var  pattern=context.createPattern(background,"no-repeat");
+            context.fillStyle=pattern;
+            context.font="bold 100px Arial";
+            context.textAlign="center";
+            context.textBaseline="middle";
+            context.fillText("Hello World",canvas.width/2,canvas.height/2);
+             context.strokeText("Hello World",canvas.width/2,canvas.height/2);
+            context.closePath();
+            context.restore();
+        }
+
+           function update(){
+                ball.x-=ball.vx;
+                 ball.y+=ball.vy;
+
+               if(ball.x-ball.r<=0){
+                   ball.vx=-ball.vx;
+               }
+               if(ball.y-ball.r<=0){
+                   ball.vy=-ball.vy;
+               }
+
+               if(ball.y>600-ball.r){
+                   ball.vy=-ball.vy;
+                   ball.y=canvas.height-ball.r
+               }
+               if(ball.x>=600-ball.r){
+                   ball.vx=-ball.vx;
+                   ball.x=canvas.width-r;
+               }
+
+
+
+            }
+
+        };
+    </script>
+</head>
+<body>
+<canvas id="canvas" style="margin-left:384px;"></canvas>
+</body>
+</html>
